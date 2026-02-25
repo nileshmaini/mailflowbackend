@@ -8,7 +8,14 @@ const csv = require('csv-parse/sync');
 const fs = require('fs');
 
 const app = express();
-app.use(cors());
+
+// Fix CORS — allows Netlify and any frontend to connect
+app.use(cors({
+  origin: '*',
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
+}));
+app.options('*', cors());
 app.use(express.json());
 
 const upload = multer({ dest: 'uploads/' });
